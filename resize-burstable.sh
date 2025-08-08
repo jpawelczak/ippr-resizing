@@ -58,7 +58,7 @@ sleep 55s
 
 kubectl patch pod resize-demo-be --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"2"},"limits":{"cpu":"2"}}}]}}' \
-  && echo "change QoS from Burstable to Guaranteed = operation currently not supported"
+  && echo "scale-up CPU requests and limits to 2. Mem: 0.5 and 4 = Burstable QoS"
 
 echo ""
 echo "Now run 'kubectl get pods' to check how often Pods were restarted (should be 0)"
