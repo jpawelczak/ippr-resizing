@@ -2,7 +2,7 @@
 
 # kubectl apply -f ./manifests
 
-echo "starting ippr demo for Burstable pod"
+echo "starting ippr demo with resize-demo-be Burstable pod"
 echo ""
 
 sleep 2s
@@ -16,14 +16,14 @@ sleep 55s
 
 kubectl patch pod resize-demo-be --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"0.5"},"limits":{"cpu":"1.5"}}}]}}' \
-  && echo "scale-down CPU request to 0.5"
+  && echo "scale-down CPU request to 0.5, keeping CPU limit at 1.5"
 
 echo ""
 sleep 55s
 
 kubectl patch pod resize-demo-be --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"1.5"},"limits":{"cpu":"2.5"}}}]}}' \
-  && echo "scale-up CPU to 1.5 & 2.5"
+  && echo "scale-up CPU request to 1.5 and limits to 2.5"
 
 echo ""
 sleep 55s
@@ -51,14 +51,23 @@ sleep 55s
 
 kubectl patch pod resize-demo-be --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"1.5","memory":"0.5G"},"limits":{"cpu":"1.5","memory":"4G"}}}]}}' \
-  && echo "scale-up CPU to 1.5 and mem to 4G"
+  && echo "scale-up CPU to 1.5 & 1.5 and mem to 0.5G & 4G"
 
 echo ""
 sleep 55s
 
 kubectl patch pod resize-demo-be --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"2"},"limits":{"cpu":"2"}}}]}}' \
-  && echo "scale-up CPU requests and limits to 2. Mem: 0.5 and 4 = Burstable QoS"
+  && echo "scale-up CPU requests and limits to 2"
+
+echo ""
+echo "Lets check out resize-demo-no-limit Pod without CPU limit"
+sleep 1s
+echo ""
+
+kubectl patch pod resize-demo-no-limit --subresource resize --patch \
+  '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"0.5"}}}]}}' \
+  && echo "scale-down CPU request to 0.5 (no limits)"
 
 echo ""
 echo "Now run 'kubectl get pods' to check how often Pods were restarted (should be 0)"

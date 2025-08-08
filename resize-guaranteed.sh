@@ -61,6 +61,16 @@ kubectl patch pod resize-demo-g --subresource resize --patch \
   && echo "change QoS from Guaranteed to Burstable = operation not supported"
 
 echo ""
+sleep 55s
+
+kubectl patch pod resize-demo-g --subresource resize --patch \
+  '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"memory":"28G"},"limits":{"memory":"28G"}}}]}}' \
+  && echo "scale-up to massive 28G Mem... no capacity (infeasible)...?" \
+  && echo "...?" \
+  && echo "Run 'kubectl get pod resize-demo-g -o yaml' and check 'status' section for message"
+
+echo ""
+sleep 1s
 echo "Now run 'kubectl get pods' to check how often Pods were restarted (should be 0)"
 
 # kubectl get pods
