@@ -3,9 +3,7 @@ Starting from GKE 1.33, you can change the CPU and memory resource requests and 
 
 This demo shows few pod in-place resizing events on GCP's Kubernetes Engine, Standard Cluster:
 * Pod with Guaranteed QoS: `resize-demo-g`
-* Pods with Burstable QoS:
-** `resize-demo-be` (burstable CPU & Mem)
-** `resize-demo-no-limit` (no CPU limits)
+* Pods with Burstable QoS: `resize-demo-be` (burstable CPU & Mem) and `resize-demo-no-limit` (no CPU limits)
 
 Note: 
 * `resizePolicy` is *not* set for in Pods for given resources - `PreferNoRestart` default setting is applied.
