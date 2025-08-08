@@ -27,7 +27,7 @@ kubectl get pods
 ```
 
 ## Patched successful, but no changes?
-If we try to patch a container and there is no capacity on the node (eg patch to 28G Mem), it will become "infeasable":
+If we try to patch a container and there is no capacity on the node (eg patched resize-demo-g to 28G Mem), it will become "infeasable":
 ```
 status:
   conditions:
