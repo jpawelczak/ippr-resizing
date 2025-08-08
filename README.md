@@ -11,7 +11,7 @@ Note:
 * `resizePolicy` is *not* set for in Pods for given resources - `PreferNoRestart` default setting is applied.
 * It is *not* possible to scale down container's Mem Resource Limit, but you can scale down its Mem Resource Requests. 
 
-Learn more about In-place Pod Resize on official [k8s documentation](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/)
+Learn more about In-place Pod Resize in official [k8s documentation](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/)
 
 # In-place Pod Resize on GKE Standard Cluster
 Clone the repo, create a GKE Standard Cluster and:
