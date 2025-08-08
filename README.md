@@ -26,8 +26,8 @@ Now, check how often pods were restarted (should be 0 for the cases in the scrip
 kubectl get pods
 ```
 
-## Patched successful, but no changes?
-If we try to patch a container and there is no capacity on the node (eg patched resize-demo-g to 28G Mem), it will become "infeasable":
+## Patched successfully, but no changes?
+If we resize a pod and there is no capacity on the node (eg patched resize-demo-g to 28G Mem), the patch will be successful, but pod's size remains the same. In this case, the pod resize will become "infeasable":
 ```
 status:
   conditions:
@@ -44,7 +44,7 @@ To check status of in-place pod resize, try this:
 ``` 
 kubectl get pod resize-demo-g -o yaml
 ```
-And check 'status' section as in example above ([more about in-place resize statuses](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/1287-in-place-update-pod-resources#resize-status)).
+And check 'status' section in the pod like in the example above ([more about in-place resize statuses](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/1287-in-place-update-pod-resources#resize-status)).
 
 ## Cleanup
 If you are done for today, you can remove the pods:
