@@ -26,6 +26,13 @@ Now, check how often pods were restarted (should be 0 for the cases in the scrip
 ```
 kubectl get pods
 ```
+You should get something like this (RESTARTS = 0 after all the changes in CPU and MEM):
+```
+NAME                   READY   STATUS    RESTARTS   AGE
+resize-demo-be         1/1     Running   0          33m
+resize-demo-g          1/1     Running   0          33m
+resize-demo-no-limit   1/1     Running   0          33m
+```
 
 ## Patched successfully, but no changes?
 If we resize a pod and there is no capacity on the node (eg patched resize-demo-g to 28G Mem), the patch will be successful, but pod's size remains the same. In this case, the pod resize will become "infeasable":
