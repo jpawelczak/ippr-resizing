@@ -29,7 +29,7 @@ Now, check how often pods were restarted (should be 0 for the cases in the scrip
 kubectl get pods
 ```
 
-To check status of in-place pod resize (eg it pached, but pod remains the same in size), try this:
+To check status of in-place pod resize (eg it was patched successfully, but pod remains the same in size), try this:
 ``` 
 kubectl get pod resize-demo-g -o yaml
 ```
