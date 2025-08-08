@@ -19,9 +19,8 @@ kubectl apply -f ./manifests
 ./resize-burstable.sh
 ```
 
-Check how the requests and limits changed on GCP's Console -> GKE -> Workloads -> list of the Pods -> click a pod to view details.
-
-
+Check how the requests and limits changed on GCP's Console -> GKE -> Workloads -> list of the Pods -> click a pod to view details. You should see something like this:
+![CPU and Mem resizing](ippr-resize.png)
 
 Now, check how often pods were restarted (should be 0 for the cases in the scripts)
 ```
