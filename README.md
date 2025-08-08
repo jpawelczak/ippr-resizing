@@ -11,9 +11,8 @@ Note:
 
 Learn more about In-place Pod Resize in official [k8s documentation](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/)
 
-# In-place Pod Resize on GKE Standard Cluster
-Clone the repo, create a GKE Standard Cluster and:
-
+## In-place Pod Resize on GKE Standard Cluster
+Clone the repo, create a GKE Standard Cluster and do following:
 ```
 kubectl apply -f ./manifests
 ./resize-guaranteed.sh
@@ -27,13 +26,28 @@ Now, check how often pods were restarted (should be 0 for the cases in the scrip
 kubectl get pods
 ```
 
-To check status of in-place pod resize (eg it was patched successfully, but pod remains the same in size), try this:
+## Patched successful, but no changes?
+If we try to patch a container and there is no capacity on the node (eg patch to 28G Mem), it will become "infeasable":
+```
+status:
+  conditions:
+  - lastProbeTime: "2025-08-08T13:29:58Z"
+    lastTransitionTime: "2025-08-08T12:55:21Z"
+    message: 'Node didn''t have enough capacity: memory, requested: 28000000000, capacity:
+      13920960512'
+    reason: Infeasible
+    status: "True"
+    type: PodResizePending
+```
+
+To check status of in-place pod resize, try this:
 ``` 
 kubectl get pod resize-demo-g -o yaml
 ```
-And check 'status' section for message ([about statuses](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/1287-in-place-update-pod-resources#resize-status)).
+And check 'status' section as in example above ([more about in-place resize statuses](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/1287-in-place-update-pod-resources#resize-status)).
 
-If you are done for today, you can remove the pods.
+## Cleanup
+If you are done for today, you can remove the pods:
 
 ```
 kubectl delete -f ./manifests
