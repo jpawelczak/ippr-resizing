@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: resize-demo-be
+spec:
+  containers:
+  - name: demo-g
+    image: nginx:latest
+    resources:
+      requests:
+        cpu: "1"
+        memory: 1G
+      limits:
+        cpu: "1.5"
+        memory: 1.5G
