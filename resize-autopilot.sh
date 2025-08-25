@@ -23,14 +23,14 @@ kubectl patch pod resize-demo-g --subresource resize --patch \
   && echo "scale-up Mem req and limits to 2G"
 
 echo ""
-sleep 5s
+sleep 55s
 
 kubectl patch pod resize-demo-g --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"0.5"},"limits":{"cpu":"0.5"}}}]}}' \
   && echo "scale-down CPU req and limits to 0.5"
 
 echo ""
-sleep 5s
+sleep 55s
 
 kubectl patch pod resize-demo-g --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"0.5","memory":"4G"},"limits":{"cpu":"0.5","memory":"4G"}}}]}}' \
