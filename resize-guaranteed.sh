@@ -2,49 +2,49 @@
 
 # kubectl apply -f ./manifests
 
-echo "starting ippr demo for Guaranteed pod"
+echo "Starting IPPR demo for Guaranteed Pod (1 CPU & 1GiB Mem) on Standard Cluster"
 echo ""
 
 sleep 1s
 
 kubectl patch pod resize-demo-g --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"memory":"2G"},"limits":{"memory":"2G"}}}]}}' \
-  && echo "scale-up mem to 2G"
+  && echo "scale-up Mem req and limits to 2G"
 
 echo ""
 sleep 55s
 
 kubectl patch pod resize-demo-g --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"0.5"},"limits":{"cpu":"0.5"}}}]}}' \
-  && echo "scale-down CPU to 0.5"
+  && echo "scale-down CPU req and limits to 0.5"
 
 echo ""
 sleep 55s
 
 kubectl patch pod resize-demo-g --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"1.5"},"limits":{"cpu":"1.5"}}}]}}' \
-  && echo "scale-up CPU to 1.5"
+  && echo "scale-up CPU req and limits to 1.5"
 
 echo ""
 sleep 55s
 
 kubectl patch pod resize-demo-g --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"memory":"3G"},"limits":{"memory":"3G"}}}]}}' \
-  && echo "scale-up mem to 3G"
+  && echo "scale-up mem req and limits to 3G"
 
 echo ""
 sleep 55s
 
 kubectl patch pod resize-demo-g --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"1"},"limits":{"cpu":"1"}}}]}}' \
-  && echo "scale-down CPU to 1"
+  && echo "scale-down CPU req and limits to 1"
 
 echo ""
 sleep 55s
 
 kubectl patch pod resize-demo-g --subresource resize --patch \
   '{"spec":{"containers":[{"name":"demo-g", "resources":{"requests":{"cpu":"0.250"},"limits":{"cpu":"0.250"}}}]}}' \
-  && echo "scale-down CPU to 0.250"
+  && echo "scale-down CPU req and limits to 0.250"
 
 echo ""
 sleep 55s
