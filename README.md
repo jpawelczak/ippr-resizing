@@ -11,7 +11,7 @@ Note:
 
 Learn more about In-place Pod Resize in official [k8s documentation](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/)
 
-## In-place Pod Resize on GKE Standard Cluster
+# In-place Pod Resize on GKE Standard Cluster
 Clone the repo, create a GKE Standard Cluster and do following:
 ```
 kubectl apply -f ./manifests
@@ -33,16 +33,8 @@ resize-demo-be         1/1     Running   0          33m
 resize-demo-g          1/1     Running   0          33m
 resize-demo-no-limit   1/1     Running   0          33m
 ```
-## In-place Pod Resize on GKE Autopilot Cluster
-Now try in-place resize on GKE Autopilot Cluster:
-```
-kubectl apply -f ./manifests/resize-demo-g.yaml
-./resize-guaranteed.sh
-```
 
-Noticed the `Error from server ...`? The resize was blocked as Autopilot accepts CPU:Mem ratio between 1:1 and 1:6.5, so mind that constrain when defining resource requests and limits (details on [Resource requests in Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests)).
-
-# Patched successfully, but no changes?
+### Patched successfully, but no changes?
 If we resize a pod and there is no capacity on the node (eg patched resize-demo-g to 28G Mem), the patch will be successful, but pod's size remains the same. In this case, the pod resize will become "infeasable":
 ```
 status:
@@ -61,6 +53,15 @@ To check status of in-place pod resize, try this:
 kubectl get pod resize-demo-g -o yaml
 ```
 And check 'status' section in the pod like in the example above ([more about in-place resize statuses](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/1287-in-place-update-pod-resources#resize-status)).
+
+# In-place Pod Resize on GKE Autopilot Cluster
+Now try in-place resize on GKE Autopilot Cluster:
+```
+kubectl apply -f ./manifests/resize-demo-g.yaml
+./resize-guaranteed.sh
+```
+
+Noticed the `Error from server ...`? The resize was blocked as Autopilot accepts CPU:Mem ratio between 1:1 and 1:6.5, so mind that constrain when defining resource requests and limits (details on [Resource requests in Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests)).
 
 # Cleanup
 If you are done for today, you can remove the pods:
