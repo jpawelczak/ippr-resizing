@@ -1,13 +1,12 @@
 # In-place Pod Resize in Action
-Starting from GKE 1.33, you can change the CPU and memory resource requests and limits assigned to a container without recreating the Pod using [In-Place Pod Resize feature (Beta / Public Preview)](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/1287-in-place-update-pod-resources).
+Starting from GKE 1.34, you can change the CPU and memory resource requests and limits assigned to a container without recreating the Pod using [In-Place Pod Resize feature (Beta / Public Preview)](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/1287-in-place-update-pod-resources).
 
 This demo shows few pod in-place resizing events on GCP's Kubernetes Engine, Standard Cluster:
 * Pod with Guaranteed QoS: `resize-demo-g`
 * Pods with Burstable QoS: `resize-demo-be` (burstable CPU & Mem) and `resize-demo-no-limit` (no CPU limits)
 
 Note: 
-* `resizePolicy` is *not* set for in Pods for given resources - `PreferNoRestart` default setting is applied.
-* It is *not* possible to scale down container's Mem Resource Limit, but you can scale down its Mem Resource Requests. 
+* `resizePolicy` is *not* set in Pods for given resources - `PreferNoRestart` default setting is applied.
 
 Learn more about In-place Pod Resize in official [k8s documentation](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/)
 
@@ -35,7 +34,7 @@ resize-demo-no-limit   1/1     Running   0          33m
 ```
 
 ### Patched successfully, but no changes?
-If we resize a pod and there is no capacity on the node (eg patched resize-demo-g to 28G Mem), the patch will be successful, but pod's size remains the same. In this case, the pod resize will become "infeasable":
+If we resize a pod and there is no capacity on the node (eg patched resize-demo-g to 28G Mem), the patch command will be processed, but pod's actual size remains the same. In this case, the pod resize will become "infeasable":
 ```
 status:
   conditions:
@@ -58,10 +57,18 @@ And check 'status' section in the pod like in the example above ([more about in-
 Now try in-place resize on GKE Autopilot Cluster:
 ```
 kubectl apply -f ./manifests/resize-demo-g.yaml
-./resize-guaranteed.sh
+./resize-autopilot.sh
 ```
 
-Noticed the `Error from server ...`? The resize was blocked as Autopilot accepts CPU:Mem ratio between 1:1 and 1:6.5, so mind that constrain when defining resource requests and limits (details on [Resource requests in Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests)).
+Noticed the `Error from server ...`? The resize was blocked as Autopilot accepts CPU:Mem in given ratio (eg between 1:1 and 1:6.5 for general-purpose compute). Mind those constrains when defining resource requests and limits (details on [Resource requests in Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests)).
+
+Ok, this time try in-place resize a small Pod (100m CPU, 125Mi Mem) on the GKE Autopilot Cluster:
+```
+kubectl apply -f ./manifests/resize-demo-mini.yaml
+./resize-ap-mini.sh
+```
+
+Noticed another `Error from server ...`? The resize was blocked as Autopilot accepts minimum size of CPU and Mem. Mind those constrains when defining resource requests and limits (details on [Resource requests in Autopilot](https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-resource-requests)).
 
 # Cleanup
 If you are done for today, you can remove the pods:
