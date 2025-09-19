@@ -31,7 +31,7 @@ kubectl patch pod resize-demo-g --subresource resize --patch \
   && echo "scale-down Mem req and limits back to 1G"
 
 echo ""
-echo "Note: IPPR supports in-place Mem scale-down supported starting from GKE 1.34"
+echo "Note: IPPR supports in-place Mem scale-down starting from GKE 1.34"
 echo ""
 
 sleep 5s
